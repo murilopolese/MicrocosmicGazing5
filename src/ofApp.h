@@ -17,6 +17,8 @@ class ofApp : public ofBaseApp{
 		ofxCv::ContourFinder contourFinder;
 
     ofxOscReceiver receiver;
+    ofxOscSender sender;
+    int cv_invert;
     int cv_threshold;
     int cv_tracker_age_min;
     int cv_tracker_age_max;
@@ -24,6 +26,9 @@ class ofApp : public ofBaseApp{
     int cv_area_radius_max;
     int cv_tracker_persistence;
     int cv_tracker_distance_max;
+
+    int sender_port = 12346;
+    string sender_address = "localhost";
 
 
 };
