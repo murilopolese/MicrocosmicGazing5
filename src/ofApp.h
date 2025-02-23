@@ -37,6 +37,7 @@ class ofApp : public ofBaseApp{
     int cv_b = 255;
     int cv_a = 0;
     int cv_blobs = 0;
+    int cv_all_blobs = 0;
     int cv_rectangles = 0;
     int cv_rectangle_fill = 0;
     int cv_velocity = 0;

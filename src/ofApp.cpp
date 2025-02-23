@@ -123,11 +123,25 @@ void ofApp::update() {
     if (addr == "/cv_autoselect") {
       cv_autoselect = m.getArgAsInt(0); // 0 or 1 for automatically selecting blob
     }
-    if (addr == "/cv_select_blob") {
+    if (addr == "/cv_next_blob") {
       int selected = int( ofRandom( 0, contourFinder.size() ) );
       int label = contourFinder.getLabel(selected);
       selected_label = label;
       selected_label_changed = true;
+    }
+    if (addr == "/cv_select_blob_by_index") {
+      int selected = m.getArgAsInt(0);
+      int label = contourFinder.getLabel(selected);
+      selected_label = label;
+      selected_label_changed = true;
+    }
+    if (addr == "/cv_select_blob_by_label") {
+      int label = m.getArgAsInt(0);
+      selected_label = label;
+      selected_label_changed = true;
+    }
+    if (addr == "/cv_all_blobs") {
+      cv_all_blobs = m.getArgAsInt(0); // 0 or 1 for sending all blobs info
     }
     if (addr == "/zoom_r") {
       zoom_r = m.getArgAsInt(0);
@@ -199,6 +213,24 @@ void ofApp::update() {
       m.addIntArg(velocity.y);
       sender.sendMessage(m, false);
     }
+  }
+
+  if (cv_all_blobs) {
+    ofxOscMessage m;
+    m.setAddress("/all_blobs");
+    m.addIntArg(contourFinder.size());
+    for (int i = 0; i < contourFinder.size(); i++) {
+      int label = contourFinder.getLabel(i);
+      ofPoint center = toOf(contourFinder.getCenter(i));
+      ofVec2f velocity = toOf(contourFinder.getVelocity(i));
+      m.addIntArg(label);
+      m.addIntArg(center.x);
+      m.addIntArg(center.y);
+      m.addIntArg(velocity.x);
+      m.addIntArg(velocity.y);
+      m.addIntArg(int(contourFinder.getContourArea(i)));
+    }
+    sender.sendMessage(m, false);
   }
 
 }
