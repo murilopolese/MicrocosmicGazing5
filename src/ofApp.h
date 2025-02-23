@@ -21,23 +21,27 @@ class ofApp : public ofBaseApp{
 
     ofxOscReceiver receiver;
     ofxOscSender sender;
-    int cv_invert;
-    int cv_threshold;
-    int cv_tracker_age_min;
-    int cv_tracker_age_max;
-    int cv_area_radius_min;
-    int cv_area_radius_max;
-    int cv_tracker_persistence;
-    int cv_tracker_distance_max;
+    int cv_invert = 1;
+    int cv_threshold = 110;
+    int cv_tracker_age_min = 1;
+    int cv_tracker_age_max = -1;
+    int cv_area_radius_min = 1;
+    int cv_area_radius_max = 255;
+    int cv_tracker_persistence = 15;
+    int cv_tracker_distance_max = 32;
 
-    int last_label = -1;
+    int selected_label = -1;
 
     int cv_r = 255;
     int cv_g = 255;
     int cv_b = 255;
-    int cv_a = 255;
-    int cv_blobs = 1;
-    int cv_rectangles = 1;
+    int cv_a = 0;
+    int cv_blobs = 0;
+    int cv_rectangles = 0;
+    int cv_rectangle_fill = 0;
+    int cv_velocity = 0;
+    float cv_velocity_scale = 1.0;
+    int cv_autoselect = 1;
 
     int zoom_r = 255;
     int zoom_g = 255;
