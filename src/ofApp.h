@@ -21,6 +21,7 @@ class ofApp : public ofBaseApp{
 
     ofxOscReceiver receiver;
     ofxOscSender sender;
+    std::vector<ofxOscSender> senders;
     int cv_invert = 1;
     int cv_threshold = 110;
     int cv_tracker_age_min = 1;

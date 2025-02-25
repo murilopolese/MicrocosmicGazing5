@@ -41,6 +41,7 @@ void ofApp::setup() {
 
   receiver.setup(PORT);
   sender.setup("localhost", PORT+1);
+  senders.push_back(sender);
 }
 
 void ofApp::update() {
@@ -79,7 +80,9 @@ void ofApp::update() {
       cv_threshold = m.getArgAsInt(0);
       ofxOscMessage m;
       m.setAddress("/cv_threshold_changed");
-      sender.sendMessage(m, false);
+      for(ofxOscSender s : senders) {
+        s.sendMessage(m, false);
+      }
     }
     if (addr == "/cv_tracker_age_min") {
       cv_tracker_age_min = m.getArgAsInt(0);
@@ -167,6 +170,15 @@ void ofApp::update() {
     if (addr == "/image_a") {
       image_a = m.getArgAsFloat(0);
     }
+    if (addr == "/subscribe") {
+      ofLog() << "subscribing";
+      string ip = m.getArgAsString(0);
+      int port = m.getArgAsInt(1);
+      ofLog() << "ip " << ip << " port " << port;
+      ofxOscSender s;
+      s.setup(ip, port);
+      senders.push_back(s);
+    }
   }
 
   if (cv_autoselect == 1) {
@@ -197,7 +209,9 @@ void ofApp::update() {
   if (selected_label_changed) {
     ofxOscMessage m;
     m.setAddress("/selected_label_changed");
-    sender.sendMessage(m, false);
+    for(ofxOscSender s : senders) {
+      s.sendMessage(m, false);
+    }
   }
   if (selected_label != -1) {
     int index = getIndex(selected_label);
@@ -211,7 +225,9 @@ void ofApp::update() {
       m.addIntArg(center.y);
       m.addIntArg(velocity.x);
       m.addIntArg(velocity.y);
-      sender.sendMessage(m, false);
+      for(ofxOscSender s : senders) {
+        s.sendMessage(m, false);
+      }
     }
   }
 
@@ -230,7 +246,9 @@ void ofApp::update() {
       m.addIntArg(velocity.y);
       m.addIntArg(int(contourFinder.getContourArea(i)));
     }
-    sender.sendMessage(m, false);
+    for(ofxOscSender s : senders) {
+      s.sendMessage(m, false);
+    }
   }
 
 }
