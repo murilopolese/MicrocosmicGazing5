@@ -232,10 +232,9 @@ void ofApp::update() {
   }
 
   if (cv_all_blobs) {
-    ofxOscMessage m;
-    m.setAddress("/all_blobs");
-    m.addIntArg(contourFinder.size());
     for (int i = 0; i < contourFinder.size(); i++) {
+      ofxOscMessage m;
+      m.setAddress("/blob");
       int label = contourFinder.getLabel(i);
       ofPoint center = toOf(contourFinder.getCenter(i));
       ofVec2f velocity = toOf(contourFinder.getVelocity(i));
@@ -245,9 +244,9 @@ void ofApp::update() {
       m.addIntArg(velocity.x);
       m.addIntArg(velocity.y);
       m.addIntArg(int(contourFinder.getContourArea(i)));
-    }
-    for(ofxOscSender s : senders) {
-      s.sendMessage(m, false);
+      for (ofxOscSender s : senders) {
+        s.sendMessage(m, false);
+      }
     }
   }
 
