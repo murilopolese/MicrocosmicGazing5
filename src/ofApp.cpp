@@ -33,11 +33,11 @@ void ofApp::setup() {
   movies[2].load("video2.mp4");
   movies[3].load("video3.mp4");
   movies[4].load("video4.mp4");
-  movies[0].play();
-  movies[1].play();
-  movies[2].play();
-  movies[3].play();
-  movies[4].play();
+  movies[5].load("video5.mp4");
+  movies[6].load("video6.mp4");
+  movies[7].load("video7.mp4");
+  movies[8].load("video8.mp4");
+  movies[selected_video].play();
 
   receiver.setup(PORT);
   sender.setup("localhost", PORT+1);
@@ -65,7 +65,12 @@ void ofApp::update() {
     // check for mouse moved message
     string addr = m.getAddress();
     if (addr == "/selected_video") {
-      selected_video = m.getArgAsInt(0) % 5;
+      int new_video = m.getArgAsInt(0) % 9;
+      if (new_video != selected_video) {
+        movies[selected_video].setPaused(true);
+        movies[new_video].play();
+        selected_video = new_video;
+      }
     }
     if (addr == "/cv_invert") {
       cv_invert = m.getArgAsInt(0);
@@ -252,10 +257,9 @@ void ofApp::update() {
 
 }
 
-
 void ofApp::draw() {
   RectTracker& tracker = contourFinder.getTracker();
-
+  ofSetLineWidth(3);
   ofSetColor(image_r, image_g, image_b, image_a);
   ofVideoPlayer movie = movies[selected_video];
   movie.draw(0, 0);
@@ -315,11 +319,11 @@ void ofApp::draw() {
       convexHull.draw();
 
       if (center.x > (crop_size/2) && center.x < 1280-(crop_size/2) && center.y > (crop_size/2) && center.y < 720-(crop_size/2)) {
+        ofPushMatrix();
         ofNoFill();
         ofDrawRectangle(center.x-(crop_size/2), center.y-(crop_size/2), crop_size, crop_size);
         ofImage img;
         img.setFromPixels(movie.getPixels());
-        ofPushMatrix();
         if (center.x > movie.getWidth()/2) {
           if (center.y > movie.getHeight()/2) {
             drawCube(center.x-(crop_size/2), center.y-(crop_size/2), crop_size, crop_size, margin, margin, amp_size, amp_size);

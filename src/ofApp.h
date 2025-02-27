@@ -16,7 +16,7 @@ class ofApp : public ofBaseApp{
     int getIndex(int label);
 
     int selected_video = 0;
-    ofVideoPlayer movies[5];
+    ofVideoPlayer movies[9];
 		ofxCv::ContourFinder contourFinder;
 
     ofxOscReceiver receiver;
