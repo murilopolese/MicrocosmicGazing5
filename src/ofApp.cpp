@@ -27,6 +27,8 @@ int ofApp::getIndex(int label) {
 void ofApp::setup() {
   ofSetVerticalSync(true);
   ofBackground(0);
+  ofHideCursor();
+  ofSetLineWidth(2);
 
   movies[0].load("video0.mp4");
   movies[1].load("video1.mp4");
@@ -259,7 +261,6 @@ void ofApp::update() {
 
 void ofApp::draw() {
   RectTracker& tracker = contourFinder.getTracker();
-  ofSetLineWidth(3);
   ofSetColor(image_r, image_g, image_b, image_a);
   ofVideoPlayer movie = movies[selected_video];
   movie.draw(0, 0);
@@ -292,14 +293,7 @@ void ofApp::draw() {
         ofPopMatrix();
       }
     }
-		// ofPushMatrix();
-		// ofTranslate(center.x, center.y);
-    // ofVec2f velocity = toOf(contourFinder.getVelocity(i));
-    // string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
-    // ofDrawBitmapString(msg, 0, 0);
-    // ofPopMatrix();
   }
-  // contourFinder.draw();
 
   if (selected_label != -1) {
     int margin = 200;
@@ -352,8 +346,6 @@ void ofApp::draw() {
     }
 
   }
-
-
 
   // for(int i = 0; i < contourFinder.size(); i++) {
   //   ofSetColor(255);
